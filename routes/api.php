@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +11,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+require __DIR__.'/admin/administrador.php';
+require __DIR__.'/estaciones/estaciones.php';
+require __DIR__.'/lineas/lineas.php';
+require __DIR__.'/notificaciones/notificaciones.php';
+require __DIR__.'/reportes/reportes.php';
+require __DIR__.'/rutinas/rutinas.php';
+require __DIR__.'/usuarios/usuarios.php';

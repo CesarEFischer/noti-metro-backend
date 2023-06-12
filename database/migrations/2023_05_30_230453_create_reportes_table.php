@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_estacion')->unsigned()->nullable(false);
             $table->integer('tiempo')->nullable(false);
-            $table->smallInteger('status')->nullable(false);
+            $table->smallInteger('status')->default(1)->nullable(false);
 
 
             $table->dateTime('fecha_alta')->nullable(false);

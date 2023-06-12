@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre')->nullable(false);
             $table->string('color')->nullable(false);
-            $table->smallInteger('status');
+            $table->smallInteger('status')->default(1);
 
             $table->dateTime('fecha_alta')->nullable(false);
             $table->bigInteger('id_user_alta')->unsigned()->nullable(false);

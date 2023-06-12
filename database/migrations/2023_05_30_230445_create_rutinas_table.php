@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('id_usuario')->unsigned()->nullable(false);
             $table->string('recorrido')->nullable(false);
             $table->integer('reincidencia')->default(0);
-            $table->smallInteger('status')->nullable(false);
+            $table->smallInteger('status')->default(1)->nullable(false);
 
             $table->dateTime('fecha_alta')->nullable(false);
             $table->dateTime('fecha_mod')->nullable(true);
