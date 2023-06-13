@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\administrador\Administrador;
 use Illuminate\Http\Request;
 
 class AdministradorController extends Controller
@@ -16,6 +17,7 @@ class AdministradorController extends Controller
 
         if(!$validate['result'])
             return validateResponse($validate);
+
     }
 
     public function nuevoAdmin(Request $request){
@@ -29,6 +31,8 @@ class AdministradorController extends Controller
 
         if(!$validate['result'])
             return validateResponse($validate);
+
+       return Administrador::nuevoAdmin($request);
 
     }
 
