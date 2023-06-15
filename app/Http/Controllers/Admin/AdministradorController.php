@@ -36,15 +36,32 @@ class AdministradorController extends Controller
 
     }
 
-    public function actulizarAdmin(Request $request){
+    public function updateAdmin(Request $request){
         $validate = validateRequestParams($request,[
             'id_admin' => 'required|number',
         ],400,'g-401');
 
         if(!$validate['result'])
             return validateResponse($validate);
+        return Administrador::updateAdmin($request);
 
     }
+
+    public function deleteAdmin(Request $request){
+        $validate = validateRequestParams($request,[
+            'id_admin' => 'required|number',
+        ],400,'g-401');
+
+        if(!$validate['result'])
+            return validateResponse($validate);
+        return Administrador::deleteAdmin($request);
+    }
+    public function getAdmins(Request $request){
+        return Administrador::getAdmins($request);
+    }
+
+
+
 
 
 }
