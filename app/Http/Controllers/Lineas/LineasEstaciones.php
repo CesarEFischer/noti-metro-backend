@@ -32,4 +32,19 @@ class LineasEstaciones extends Controller
         return Lineas::updateLinea($request);
 
     }
+    public function deleteLinea(Request $request){
+        $validate = validateRequestParams($request,[
+            'id_linea' => 'required|number',
+        ],400,'g-401');
+
+        if(!$validate['result'])
+            return validateResponse($validate);
+        return Lineas::deleteLinea($request);
+
+    }
+    public function getLineas(Request $request){
+
+        return Lineas::getLineas($request);
+
+    }
 }

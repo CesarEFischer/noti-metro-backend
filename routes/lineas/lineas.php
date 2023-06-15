@@ -11,6 +11,10 @@ Route::group([
     ], function (){
         Route::post('Lineas/nuevaLinea','LineasEstaciones@nuevaLinea');
         Route::post('Lineas/updateLinea','LineasEstaciones@updateLinea');
+        Route::post('Lineas/deleteLinea','LineasEstaciones@deleteLinea');
+        Route::get('Lineas/getLineas','LineasEstaciones@getLineas');
+
+
     });
 });
 
