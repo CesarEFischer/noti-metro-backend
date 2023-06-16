@@ -22,7 +22,21 @@ class Reportes extends Model
             $reporte->id_estacion = $request->id_estacion;
             $reporte->tiempo = $request->tiempo;
             $reporte->id_user_alta = $request->id_user_alta;
+            $reporte->tipo_repote = $request->tipo_reporte;
             if(!($reporte->save())) throw new Exception("Error al ingresar reporte");
+
+            $query = "SELECT COUNT(1) AS notificar
+                      FROM reportes
+                      WHERE id_reporte = ".$request->id_estacion."
+                      AND (TIMEDIFF(MINUTE, fecha_alta, now()) > 0
+                        OR (TIMEDIFF(MINUTE, fecha_alta, now()) <= tiempo)";
+            $notificar = DB::select($query)[0]->notificar;
+
+            if($notificar > 0 ) {
+                // Se hace el promedio
+                // Se obtiene el tipo de reporte que más haya tenido
+               // Se mando notificación
+            }
 
             return response()->json([
                 'result' => true,
