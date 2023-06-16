@@ -25,6 +25,8 @@ class Reportes extends Model
             $reporte->tipo_repote = $request->tipo_reporte;
             if(!($reporte->save())) throw new Exception("Error al ingresar reporte");
 
+            $notificado = 0; // Es una bandera para saber si ha sido lanzada la notificación
+
             $query = "SELECT COUNT(1) AS notificar
                       FROM reportes
                       WHERE id_reporte = ".$request->id_estacion."
@@ -36,11 +38,13 @@ class Reportes extends Model
                 // Se hace el promedio
                 // Se obtiene el tipo de reporte que más haya tenido
                // Se mando notificación
+                $notificado = 1;
             }
 
             return response()->json([
                 'result' => true,
                 'message' => 'Reporte generado correctamente',
+                'notificado' => $notificado,
             ], 200);
 
         }catch (Exception $e){
