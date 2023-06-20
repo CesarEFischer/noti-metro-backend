@@ -62,5 +62,7 @@ class ReportesController extends Controller
 
         if($validate->fails())
             return validateResponse($validate);
+
+        return Reportes::getAfluencia($request);    
     }
 }

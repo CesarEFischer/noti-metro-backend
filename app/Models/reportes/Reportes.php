@@ -159,6 +159,26 @@ class Reportes extends Model
 
     public static function getAfluencia($request){
         $totales = Reportes::where('id_estacion',$request->id_estacion)->groupBy('tipo_reporte')->count();
-        
+        $tiempos = Reportes::where('id_estacion',$request->id_estacion)->sum('tiempo');
+
+        $afluencia = [];
+
+        if(count($totales)==0)
+            return response()->json([
+                'result' => true,
+                'data' => $afluencia
+            ], 200);
+
+
+        for($i = 0; $i<count($totales); $i++){
+            $afluencia[] = ['total_reportes'=> $totales[$i], 'tiempo' => $tiempos[$i]['tiempo']];
+        }
+
+        return response()->json([
+            'result' => true,
+            'data' => $afluencia
+        ], 200);
+
     }
+
 }
