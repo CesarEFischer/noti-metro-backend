@@ -11,14 +11,15 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id('id');
-            $table->string('apellido_paterno');
-            $table->string('apellido_materno');
-            $table->string('nombre');
+            $table->string('apellido_paterno')->nullable(true);
+            $table->string('apellido_materno')->nullable(true);
+            $table->string('nombre')->nullable(true);
             $table->string('correo');
+            $table->text('contrasena');
             $table->smallInteger('status');
             $table->dateTime('fecha_alta');
-            $table->dateTime('fecha_mod');
-            $table->dateTime('fecha_baja');
+            $table->dateTime('fecha_mod')->nullable(true);
+            $table->dateTime('fecha_baja')->nullable(true);
 
 
         });

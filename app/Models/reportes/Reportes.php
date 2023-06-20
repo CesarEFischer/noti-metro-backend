@@ -156,4 +156,9 @@ class Reportes extends Model
 
     }
 
+
+    public static function getAfluencia($request){
+        $totales = Reportes::where('id_estacion',$request->id_estacion)->groupBy('tipo_reporte')->count();
+        
+    }
 }

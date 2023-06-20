@@ -24,20 +24,22 @@ class UsuariosController extends Controller
         
     }
 
-    public function nuevoUsuario(Request $request){
+    public function preRegistro(Request $request){
 
-        $validate = validateRequestParams($request,[
+        $validate = Validator::make($request->all(),[
             'email' => 'required|string',
             'contrasena' => 'required|string',
-        ],400,'g-401');
+        ]);
 
-        if(!$validate['result'])
+        if($validate->fails())
             return validateResponse($validate);
 
-       return Administrador::nuevoAdmin($request);
+       return Usuarios::nuevoUsuario($request);
     }
 
-    public function generarCodigoValidacion(Request $request){
+
+
+    public function generarCodigoVerificacion(Request $request){
         $validate = Validator::make($request->all(),[
             'email' => 'required|string',
             'contrasena' => 'required|string',
@@ -54,37 +56,54 @@ class UsuariosController extends Controller
 
         return response()->json([
             'result' => true,
-            'message' => 'Usuario verificado',
+            'codigo' => $codigo,
         ], 200);
 
 
     }
 
 
+    public function registroTerminal(Request $request){
+
+        $validate = Validator::make($request->all(),[
+            'id_user' => 'required',
+            'nombre' => 'required|string',
+            'apellido_paterno' => 'required|string',
+            'apellido_materno' => 'required|string',
+            'rutina' => 'required|string',
+        ]);
+
+        if($validate->fails())
+            return validateResponse($validate);
+
+       return Usuarios::registroTerminal($request);
+    }
+
+
     public function updateUsuario(Request $request){
         $validate = validateRequestParams($request,[
-            'id_admin' => 'required|number',
+            'id_user' => 'required|number',
         ],400,'g-401');
 
         if(!$validate['result'])
             return validateResponse($validate);
-        return Administrador::updateAdmin($request);
+        return Usuarios::updateUsuario($request);
 
     }
 
     public function deleteUsuario(Request $request){
         $validate = validateRequestParams($request,[
-            'id_admin' => 'required|number',
+            'id_user' => 'required|number',
         ],400,'g-401');
 
         if(!$validate['result'])
             return validateResponse($validate);
-        return Administrador::deleteAdmin($request);
+        return Usuarios::deleteUsuario($request);
     }
 
     
     public function getUsuarios(Request $request){
-        return Administrador::getAdmins($request);
+        return Usuarios::getUsuarios($request);
     }
 
 }

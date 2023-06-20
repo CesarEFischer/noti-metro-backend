@@ -20,12 +20,13 @@ class AdministradorController extends Controller
         if($validate->fails())
             return validateResponse($validate);
 
-        $user = Administrador::where('correo',$request->email)->get();
+        $user = Administrador::where('correo',$request->email)->count();
 
-        if(count($user) == 0 )
+        if($user == 0 )
             return response()->json([
                 'result' => 0,
                 'message' => 'Tiene rol 0',
+                'user' => $user,
             ], 200);
 
         

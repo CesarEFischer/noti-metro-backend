@@ -16,9 +16,9 @@ class Administrador extends Model
 
     public static function logIn($request){
 
-        $user = Administrador::where('correo',$request->email)->get();
+        $user = Administrador::where('correo',$request->email)->get()[0];
 
-        if(count($user)== 0)
+        if($user== null)
             return response()->json([
                 'result' => false,
                 'message' => 'El correo ingresado no esta registrado',
@@ -54,8 +54,6 @@ class Administrador extends Model
                 'result' => true,
                 'message' => 'Usuario verificado',
             ], 200);
-  
-
 
     }
 

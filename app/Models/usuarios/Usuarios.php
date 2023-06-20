@@ -4,6 +4,7 @@ namespace App\Models\usuarios;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\rutinas\Rutinas;
 
 class Usuarios extends Model
 {
@@ -17,9 +18,10 @@ class Usuarios extends Model
 
     public static function logIn($request){
 
-        $user = Usuarios::where('correo',$request->email)->get();
+        $user = Usuarios::where('correo',$request->email)->get()[0];
 
-        if(count($user)== 0)
+
+        if($user == null)
             return response()->json([
                 'result' => false,
                 'message' => 'El correo ingresado no esta registrado',
@@ -63,15 +65,24 @@ class Usuarios extends Model
     public static function nuevoUsuario($request){
       try{
 
+          if(count(Usuarios::where('correo',$request->email)->get())==1)
+          return response()->json([
+            'result' => false,
+            'message' => 'Hay un registro activo para este usuario',
+            'code' => 400,
+            'error' => 'g-401'
+        ], 400);
+
+
           $admin = new Usuarios();
-          $admin->correo = $request->correo;
+          $admin->correo = $request->email;
           $admin->contrasena = base64_encode(encrypt($request->contrasena));
           $admin->status = 0;
-    
           if(!($admin->save())) throw new Exception("Error al realizar el registro");
 
           return response()->json([
               'result' => true,
+              'id' => $admin->id,
               'message' => 'Registro generado correctamente',
           ], 200);
 
@@ -86,16 +97,46 @@ class Usuarios extends Model
       }
     }
 
+
+    public static function registroTerminal($request){
+        try{
+            $admin = Usuarios::find($request->id_user);
+            $admin->apellido_paterno = $request->apellido_paterno;
+            $admin->apellido_materno = $request->apellido_materno;
+            $admin->nombre =  $request->nombre;
+            $admin->status = 1;
+            if(!($admin->save())) throw new Exception("Error al actualizar concluir el registro");
+
+            if(Rutinas::nuevaRutina($request) == null) throw new Exception("Error al guardar la rutina");
+
+
+            return response()->json([
+                'result' => true,
+                'id' => $admin->id,
+                'message' => 'Registro concluido correctamente',
+            ], 200);
+
+        }catch (Exception $e){
+            return response()->json([
+                'result' => false,
+                'message' => $e->getMessage(),
+                'code' => 400,
+                'error' => 'g-401'
+            ], 400);
+
+        }
+    }
+
+
     public static function updateUsuario($request){
         try{
-            $admin = Administrador::find($request->id);
+            $admin = Usuarios::find($request->id);
             $admin->apellido_paterno = $request->apellido_paterno;
             $admin->apellido_materno = $request->apellido_materno;
             $admin->nombre =  $request->nombre;
             $admin->correo = $request->correo;
             $admin->contrasena = '';
             $admin->id_user_mod = $request->id_user_mod;
-            $admin->rol = $request->rol;
             if(!($admin->save())) throw new Exception("Error al actualizar el administrador");
 
             return response()->json([

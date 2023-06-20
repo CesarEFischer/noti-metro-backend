@@ -54,4 +54,13 @@ class ReportesController extends Controller
 
         return Reportes::getReportesActivas($request);
     }
+
+    public function getAfluencia(Request $request){
+        $validate = Validator::make($request->all(),[
+            'id_estacion' => 'required',
+        ]);
+
+        if($validate->fails())
+            return validateResponse($validate);
+    }
 }
