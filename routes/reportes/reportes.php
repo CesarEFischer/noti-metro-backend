@@ -14,6 +14,8 @@ Route::group([
         Route::post('Reportes/deleteReporte','ReportesController@deleteReporte');
         Route::get('Reportes/getReportesActivas','ReportesController@getReportesActivas');
         Route::get('Reportes/getReportesInactivas','ReportesController@getReportesInactivas');
+        Route::post('Reportes/getAfluencia','ReportesController@getAfluencia');
+
 
 
     });

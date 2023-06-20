@@ -56,13 +56,14 @@ class ReportesController extends Controller
     }
 
     public function getAfluencia(Request $request){
-        $validate = Validator::make($request->all(),[
+        /*$validate = Validator::make($request->all(),[
             'id_estacion' => 'required',
         ]);
 
         if($validate->fails())
-            return validateResponse($validate);
+            return validateResponse($validate);*/
 
-        return Reportes::getAfluencia($request);    
+
+        return Reportes::getAfluencia($request);
     }
 }
