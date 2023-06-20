@@ -20,12 +20,11 @@ class Reportes extends Model
     public static function nuevoReporte($request){
         try{
             $reporte = new Reportes();
-            $reporte->id_estacion = $request->id_estacion;
             $reporte->tiempo = $request->tiempo;
-            $reporte->id_user_alta = $request->id_user_alta;
-            error_log($request->tiempo);
-
-            //$reporte->tipo_reporte = $request->tipo_reporte;
+            $reporte->id_user_alta = 1;
+            $reporte->fecha_alta = date('Y-m-d');
+            $reporte->id_estacion = $request->id_estacion;
+            $reporte->tipo_reporte = $request->tipo_reporte;
             if(!($reporte->save())) throw new Exception("Error al ingresar reporte");
 
             $notificado = 0; // Es una bandera para saber si ha sido lanzada la notificación
@@ -35,23 +34,11 @@ class Reportes extends Model
                       WHERE id_reporte = ".$request->id_estacion."
                       AND (TIMEDIFF(MINUTE, fecha_alta, now()) > 0
                         OR (TIMEDIFF(MINUTE, fecha_alta, now()) <= tiempo)";*/
-            $query = "SELECT COUNT(1) AS notificar
-                       FROM reportes
-                       WHERE id_estacion = ".$request->id_estacion."";
 
-            $notificar = DB::select($query)[0]->notificar;
-
-            if($notificar > 0 ) {
-                // Se hace el promedio
-                // Se obtiene el tipo de reporte que más haya tenido
-               // Se mando notificación
-                $notificado = 1;
-            }
 
             return response()->json([
                 'result' => true,
                 'message' => 'Reporte generado correctamente',
-                'notificado' => $notificado,
             ], 200);
 
         }catch (Exception $e){

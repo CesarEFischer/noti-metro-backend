@@ -55,7 +55,7 @@ class AdministradorController extends Controller
 
     public function nuevoAdmin(Request $request){
 
-        $validate = validateRequestParams($request,[
+        /*$validate = validateRequestParams($request,[
             'nombre' => 'required|string',
             'email' => 'required|string',
             'contrasena' => 'required|string',
@@ -63,7 +63,7 @@ class AdministradorController extends Controller
         ],400,'g-401');
 
         if(!$validate['result'])
-            return validateResponse($validate);
+            return validateResponse($validate);*/
 
        return Administrador::nuevoAdmin($request);
 
