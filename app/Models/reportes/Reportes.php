@@ -23,7 +23,7 @@ class Reportes extends Model
             $reporte->id_estacion = $request->id_estacion;
             $reporte->tiempo = $request->tiempo;
             $reporte->id_user_alta = $request->id_user_alta;
-            error_log($request->tiempo);
+
 
             //$reporte->tipo_reporte = $request->tipo_reporte;
             if(!($reporte->save())) throw new Exception("Error al ingresar reporte");

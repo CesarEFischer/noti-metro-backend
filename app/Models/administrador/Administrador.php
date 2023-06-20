@@ -18,13 +18,16 @@ class Administrador extends Model
     public static function nuevoAdmin($request){
       try{
           $admin = new Administrador();
+
           $admin->apellido_paterno = $request->apellido_paterno;
           $admin->apellido_materno = $request->apellido_materno;
           $admin->nombre =  $request->nombre;
           $admin->correo = $request->correo;
-          $admin->contrasena = '';
-          $admin->id_user_alta = $request->id_user_alta;
-          $admin->rol = $request->rol;
+          $admin->contrasena = $request->contrasena;
+          $admin->rol = 1;
+          $admin->status =1;
+          $admin->fecha_alta = date('Y-m-d');
+          $admin->id_user_alta = 1;
           if(!($admin->save())) throw new Exception("Error al realizar el registro");
 
           return response()->json([
