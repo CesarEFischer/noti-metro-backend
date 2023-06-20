@@ -5,6 +5,7 @@ namespace App\Models\reportes;
 use App\Models\notificaciones\Notificaciones;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Reportes extends Model
 {
@@ -22,16 +23,22 @@ class Reportes extends Model
             $reporte->id_estacion = $request->id_estacion;
             $reporte->tiempo = $request->tiempo;
             $reporte->id_user_alta = $request->id_user_alta;
-            $reporte->tipo_repote = $request->tipo_reporte;
+            error_log($request->tiempo);
+
+            //$reporte->tipo_reporte = $request->tipo_reporte;
             if(!($reporte->save())) throw new Exception("Error al ingresar reporte");
 
             $notificado = 0; // Es una bandera para saber si ha sido lanzada la notificación
 
-            $query = "SELECT COUNT(1) AS notificar
+           /* $query = "SELECT COUNT(1) AS notificar
                       FROM reportes
                       WHERE id_reporte = ".$request->id_estacion."
                       AND (TIMEDIFF(MINUTE, fecha_alta, now()) > 0
-                        OR (TIMEDIFF(MINUTE, fecha_alta, now()) <= tiempo)";
+                        OR (TIMEDIFF(MINUTE, fecha_alta, now()) <= tiempo)";*/
+            $query = "SELECT COUNT(1) AS notificar
+                       FROM reportes
+                       WHERE id_estacion = ".$request->id_estacion."";
+
             $notificar = DB::select($query)[0]->notificar;
 
             if($notificar > 0 ) {

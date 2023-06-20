@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 Route::group([
      'namespace' => 'App\Http\Controllers\Admin',
      'middleware' => 'api',
-     'prefix' => 'auth',
 ], function (){
     Route::group([
         'middleware' => 'api',

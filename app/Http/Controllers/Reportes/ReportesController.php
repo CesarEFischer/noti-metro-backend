@@ -11,14 +11,14 @@ class ReportesController extends Controller
 {
     public function nuevoReporte(Request $request){
 
-        $validate = validateRequestParams($request,[
+        /*$validate = validateRequestParams($request,[
             'nombre' => 'required|string',
             'color' => 'required|string',
             'tiempo' => 'required|string'
         ],400,'g-401');
 
         if(!$validate['result'])
-            return validateResponse($validate);
+            return validateResponse($validate);*/
 
         return Reportes::nuevoReporte($request);
     }
