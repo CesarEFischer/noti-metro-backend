@@ -14,6 +14,52 @@ class Administrador extends Model
     const CREATED_AT = 'fecha_alta';
     const UPDATED_AT = 'fecha_mod';
 
+    public static function logIn($request){
+
+        $user = Administrador::where('correo',$request->email)->get();
+
+        if(count($user)== 0)
+            return response()->json([
+                'result' => false,
+                'message' => 'El correo ingresado no esta registrado',
+                'code' => 400,
+            ], 400);
+
+        if($user->status == 0)
+            return response()->json([
+                'result' => false,
+                'message' => 'El usuario no ha concluido con su registro',
+                'code' => 400,
+            ], 400);
+
+        if($user->status == 2)
+            return response()->json([
+                'result' => false,
+                'message' => 'El usuario esta dado de baja',
+                'code' => 400,
+            ], 400);
+
+        
+          $pass = decrypt(base64_decode($user->contrasena));
+          
+          if($pass != $request->contrasena)
+            return response()->json([
+                'result' => false,
+                'message' => 'La contraseña es incorrecta',
+                'code' => 400,
+            ], 400);
+
+
+         return response()->json([
+                'result' => true,
+                'message' => 'Usuario verificado',
+            ], 200);
+  
+
+
+    }
+
+
 
     public static function nuevoAdmin($request){
       try{

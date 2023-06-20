@@ -14,7 +14,7 @@ Route::group([
         Route::post('admin/updateAdmin','AdministradorController@updateAdmin');
         Route::post('admin/deleteAdmin','AdministradorController@deleteAdmin');
         Route::get('admin/getAdmins','AdministradorController@getAdmins');
-
+        Route::post('admin/getRol','AdministradorController@getRol');
 
     });
 });
